@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Mathetrainer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Mathetrainer</h1>
+    <!--
+    <button id="plus">Plus</button>
+    <button id="minus">Minus</button>
+  -->
+    <p id="score"></p>
+    <p id="big"></p>
+    <form id="form" action="" method="">
+      <input id="result" type="text" name="ergebnis" onkeydown="on_enter();" />
+      <input type="button" value="Überprüfen" onclick="print_result();" />
+    </form>
+  </body>
+</html>
+<script>
+  var result = 0;
+  if (!sessionStorage.right) {
+    sessionStorage.setItem("right", "0");
+  }
+
+  if (!sessionStorage.total) {
+    sessionStorage.setItem("total", "0");
+  }
+
+  const sound = new Audio();
+  const sleep = milliseconds => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+  };
+
+  function print_result() {
+    if (result == document.getElementById("result").value) {
+      document.getElementById("big").innerHTML = "Richtig";
+      playSound("tada.mp3");
+      sessionStorage.setItem(
+        "right",
+        Number(sessionStorage.getItem("right")) + 1
+      );
+    } else {
+      document.getElementById("big").style.color = "red";
+      sessionStorage.setItem(
+        document.getElementById("big").innerHTML,
+        document.getElementById("result").value
+      );
+      document.getElementById("big").innerHTML = "Falsch";
+      playSound("slip.mp3");
+    }
+
+    document.getElementById("result").value = "";
+    sleep(1500).then(() => {
+      location.reload();
+    });
+
+    sessionStorage.setItem(
+      "total",
+      Number(sessionStorage.getItem("total")) + 1
+    );
+  }
+
+  function on_enter() {
+    if (event.keyCode == 13) {
+      print_result();
+    }
+  }
+
+  function calculate_random_plus() {
+    let zahl_1 = Math.round(Math.random() * 100);
+    let zahl_2 = Math.round(Math.random() * 100);
+    while (zahl_1 + zahl_2 > 100) {
+      zahl_2 = Math.round(Math.random() * 100);
+    }
+    result = zahl_1 + zahl_2;
+
+    document.getElementById("big").innerHTML = `${zahl_1} + ${zahl_2}`;
+  }
+
+  function calculate_random_minus() {
+    let zahl_1 = Math.round(Math.random() * 100);
+    let zahl_2 = Math.round(Math.random() * zahl_1);
+
+    result = zahl_1 - zahl_2;
+
+    document.getElementById("big").innerHTML = `${zahl_1} - ${zahl_2}`;
+  }
+
+  function playSound(song) {
+    sound.src = song;
+    sound.play();
+  }
+
+  document.getElementById("score").innerHTML = `${sessionStorage.getItem(
+    "right"
+  )} / ${sessionStorage.getItem("total")}`;
+
+  if (Math.random() < 0.5) {
+    calculate_random_plus();
+  } else {
+    calculate_random_minus();
+  }
+
+  document.getElementById("result").focus();
+</script>
