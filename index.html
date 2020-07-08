@@ -17,7 +17,12 @@
     <p id="big"></p>
     <form id="form" action="" method="">
       <input id="result" type="text" name="ergebnis" onkeydown="on_enter();" />
-      <input type="button" value="Überprüfen" onclick="print_result();" />
+      <input
+        type="button"
+        id="check"
+        value="Überprüfen"
+        onclick="print_result();"
+      />
     </form>
   </body>
 </html>
@@ -32,8 +37,8 @@
   }
 
   const sound = new Audio();
-  const sleep = milliseconds => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
+  const sleep = (milliseconds) => {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
   };
 
   function print_result() {
@@ -71,6 +76,32 @@
     }
   }
 
+  function calculate_random_mulitplication() {
+    let zahl_1 = Math.round(Math.random() * 10);
+    let zahl_2 = Math.round(Math.random() * 10);
+
+    result = zahl_1 * zahl_2;
+
+    document.getElementById("big").innerHTML = `${zahl_1} * ${zahl_2}`;
+  }
+
+  function calculate_random_division() {
+    let zahl_1 = Math.round(Math.random() * 100);
+    let zahl_2 = Math.round(Math.random() * 10);
+
+    while (
+      !Number.isInteger(zahl_1 / zahl_2) ||
+      zahl_1 / zahl_2 > 10 ||
+      zahl_2 > zahl_1
+    ) {
+      zahl_1 = Math.round(Math.random() * 100);
+    }
+
+    result = zahl_1 / zahl_2;
+
+    document.getElementById("big").innerHTML = `${zahl_1} / ${zahl_2}`;
+  }
+
   function calculate_random_plus() {
     let zahl_1 = Math.round(Math.random() * 100);
     let zahl_2 = Math.round(Math.random() * 100);
@@ -100,11 +131,15 @@
     "right"
   )} / ${sessionStorage.getItem("total")}`;
 
-  if (Math.random() < 0.5) {
+  /* if (Math.random() < 0.5) {
     calculate_random_plus();
   } else {
     calculate_random_minus();
-  }
+  } */
+
+  //calculate_random_mulitplication();
+
+  calculate_random_division();
 
   document.getElementById("result").focus();
 </script>

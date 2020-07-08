@@ -33,3 +33,8 @@ button {
   width: 100px;
   height: 2em;
 }
+
+#check,
+#result {
+  font-size: 1.5em;
+}
