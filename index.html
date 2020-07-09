@@ -131,15 +131,21 @@
     "right"
   )} / ${sessionStorage.getItem("total")}`;
 
-  /* if (Math.random() < 0.5) {
+  let rand = Math.random();
+
+  if (rand < 0.25) {
     calculate_random_plus();
-  } else {
+  } else if (rand >= 0.25 && rand < 0.5) {
     calculate_random_minus();
-  } */
+  } else if (rand >= 0.5 && rand < 0.75) {
+    calculate_random_mulitplication();
+  } else {
+    calculate_random_division();
+  }
 
   //calculate_random_mulitplication();
 
-  calculate_random_division();
+  //calculate_random_division();
 
   document.getElementById("result").focus();
 </script>
