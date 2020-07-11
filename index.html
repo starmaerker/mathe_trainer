@@ -9,14 +9,15 @@
   </head>
   <body>
     <h1>Mathetrainer</h1>
-    <!--
-    <button id="plus">Plus</button>
-    <button id="minus">Minus</button>
-  -->
     <p id="score"></p>
     <p id="big"></p>
     <form id="form" action="" method="">
-      <input id="result" type="text" name="ergebnis" onkeydown="on_enter();" />
+      <input
+        id="result"
+        type="text"
+        name="ergebnis"
+        onkeydown="on_enter(event);"
+      />
       <input
         type="button"
         id="check"
@@ -70,8 +71,8 @@
     );
   }
 
-  function on_enter() {
-    if (event.keyCode == 13) {
+  function on_enter(e) {
+    if (e.keyCode == 32) {
       print_result();
     }
   }
